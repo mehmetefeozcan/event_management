@@ -1,6 +1,10 @@
 <?php
 $menuList = [
     ["id" => 1, "name" => "Etkinlikler", "route" => "/index.php"],
+    ["id" => 2, "name" => "Takvim", "route" => "/calendar/index.php"],
+    ["id" => 3, "name" => "Rezervasyonlarım", "route" => "/reservation/index.php"],
+    ["id" => 4, "name" => "Bekleme Listesi", "route" => "/waitlist/index.php"],
+    ["id" => 5, "name" => "Yönetici Paneli", "route" => "/admin/index.php"],
 ];
 
 $pagePath ??= "";
@@ -16,11 +20,11 @@ $pagePath ??= "";
         </button>
         <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto">
-                <?php foreach ($menuList as $i): ?>
+                <?php foreach ($menuList as $item): ?>
                     <li class="nav-item ">
-                        <a class="nav-link <?= $pagePath == $i['route'] ? 'active' : '' ?>"
-                            href="<?= BASE_PATH . $i['route']; ?>">
-                            <?= $i['name']; ?>
+                        <a class="nav-link <?= $pagePath == $item['route'] ? 'active' : '' ?>"
+                            href="<?= BASE_PATH . $item['route']; ?>">
+                            <?= $item['name']; ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
