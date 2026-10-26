@@ -5,13 +5,18 @@ $pageTitle = "Bekleme Listesi";
 $pagePath = "/waitlist/index.php";
 
 $waitlist = $_SESSION['waitlist'];
-$lists = [];
+$rows = [];
 
 foreach ($eventList as $event) {
-    $students = findStudents($studentList, $waitlist[$event['id']] ?? []);
+    $position = 0;
 
-    if (!empty($students)) {
-        $lists[] = ['event' => $event, 'students' => $students];
+    foreach ($waitlist[$event['id']] ?? [] as $studentId) {
+        $student = findById($studentList, $studentId);
+
+        if ($student !== null) {
+            $position++;
+            $rows[] = ['event' => $event, 'student' => $student, 'position' => $position];
+        }
     }
 }
 
@@ -40,37 +45,53 @@ $totalWaiting = countAll($waitlist);
             </div>
         </div>
 
-        <?php if (empty($lists)): ?>
+        <?php if (empty($rows)): ?>
             <p class="text-muted mt-4">Bekleme listesinde kimse yok.</p>
-        <?php endif ?>
-
-        <?php foreach ($lists as $list): ?>
-            <div class="bg-white rounded-4 border p-4 mt-4">
-                <h5>
-                    <a href="<?= BASE_PATH ?>/event/detail.php?id=<?= $list['event']['id'] ?>" class="text-black">
-                        <?= htmlspecialchars($list['event']['name']) ?>
-                    </a>
-                </h5>
-
-                <ul class="list-group list-group-flush mt-3">
-                    <?php foreach ($list['students'] as $position => $student): ?>
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center gap-3">
-                            <span>
-                                <span class="badge text-bg-light border me-2"><?= $position + 1 ?></span>
-                                <?= htmlspecialchars($student['name']) ?>
-                                <span class="text-muted">(<?= $student['grade'] ?>. sınıf)</span>
-                            </span>
-                            <form action="store.php" method="POST">
-                                <input type="hidden" name="action" value="remove">
-                                <input type="hidden" name="event_id" value="<?= $list['event']['id'] ?>">
-                                <input type="hidden" name="student_id" value="<?= $student['id'] ?>">
-                                <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
-                            </form>
-                        </li>
-                    <?php endforeach ?>
-                </ul>
+        <?php else: ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Sıra</th>
+                            <th scope="col">Öğrenci</th>
+                            <th scope="col">Etkinlik</th>
+                            <th scope="col">Tarih ve Saat</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($rows as $index => $row): ?>
+                            <tr>
+                                <td class="align-middle"><?= $index + 1 ?></td>
+                                <td class="align-middle">
+                                    <span class="badge text-bg-light border"><?= $row['position'] ?></span>
+                                </td>
+                                <td class="align-middle">
+                                    <?= htmlspecialchars($row['student']['name']) ?>
+                                    <span class="text-muted">(<?= $row['student']['grade'] ?>. sınıf)</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a href="<?= BASE_PATH ?>/event/detail.php?id=<?= $row['event']['id'] ?>"
+                                        class="text-black">
+                                        <?= htmlspecialchars($row['event']['name']) ?>
+                                    </a>
+                                </td>
+                                <td class="align-middle"><?= formatEventTime($row['event']) ?></td>
+                                <td class="align-middle">
+                                    <form action="store.php" method="POST">
+                                        <input type="hidden" name="action" value="remove">
+                                        <input type="hidden" name="event_id" value="<?= $row['event']['id'] ?>">
+                                        <input type="hidden" name="student_id" value="<?= $row['student']['id'] ?>">
+                                        <button type="submit" class="btn btn-danger btn-sm">Kaldır</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
             </div>
-        <?php endforeach ?>
+        <?php endif ?>
     </div>
 
 
