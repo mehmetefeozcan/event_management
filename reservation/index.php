@@ -37,7 +37,8 @@ foreach ($_SESSION['reservations'] as $eventId => $studentIds) {
                 <h3><?= $pageTitle ?></h3>
             </span>
             <div class="col-auto">
-                <a class="btn btn-primary btn-sm rounded-2" href="<?= BASE_PATH ?>/index.php" role="button">Etkinliklere git</a>
+                <a class="btn btn-primary btn-sm rounded-2" href="<?= BASE_PATH ?>/index.php" role="button">Etkinliklere
+                    git</a>
             </div>
         </div>
 
@@ -61,7 +62,8 @@ foreach ($_SESSION['reservations'] as $eventId => $studentIds) {
                                 <td class="align-middle"><?= $index + 1 ?></td>
                                 <td class="align-middle"><?= htmlspecialchars($row['student']['name']) ?></td>
                                 <td class="align-middle">
-                                    <a href="<?= BASE_PATH ?>/event/detail.php?id=<?= $row['event']['id'] ?>" class="text-black">
+                                    <a href="<?= BASE_PATH ?>/event/detail.php?id=<?= $row['event']['id'] ?>"
+                                        class="text-black">
                                         <?= htmlspecialchars($row['event']['name']) ?>
                                     </a>
                                 </td>
@@ -83,7 +85,6 @@ foreach ($_SESSION['reservations'] as $eventId => $studentIds) {
         <?php endif ?>
     </div>
 
-    <?php include_once COMPONENTS_PATH . "/layout/footer.php" ?>
 
     <?php include_once "../config/script_config.php" ?>
 </body>

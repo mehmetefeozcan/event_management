@@ -47,12 +47,13 @@ if ($event === null) {
             <div class="d-flex flex-wrap gap-2 mb-4">
                 <span class="bg-white rounded-4 px-3 py-2 border"><?= formatEventTime($event) ?></span>
                 <span class="bg-white rounded-4 px-3 py-2 border">Süre: <?= $event['duration'] ?> saat</span>
-                <span class="bg-white rounded-4 px-3 py-2 border">Kontenjan: <?= $count ?> / <?= $event['capacity'] ?></span>
+                <span class="bg-white rounded-4 px-3 py-2 border">Kontenjan: <?= $count ?> /
+                    <?= $event['capacity'] ?></span>
                 <span class="bg-white rounded-4 px-3 py-2 border">Min. Sınıf: <?= $event['min_grade'] ?></span>
             </div>
 
-            <div class="progress mb-2" role="progressbar" aria-label="Doluluk"
-                aria-valuenow="<?= $roundedRate ?>" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress mb-2" role="progressbar" aria-label="Doluluk" aria-valuenow="<?= $roundedRate ?>"
+                aria-valuemin="0" aria-valuemax="100">
                 <div class="progress-bar bg-<?= occupancyColor($rate) ?>" style="width: <?= $roundedRate ?>%"></div>
             </div>
             <p class="small text-muted mb-4">
@@ -108,7 +109,6 @@ if ($event === null) {
         <?php endif ?>
     </div>
 
-    <?php include_once COMPONENTS_PATH . "/layout/footer.php" ?>
 
     <?php include_once "../config/script_config.php" ?>
 </body>

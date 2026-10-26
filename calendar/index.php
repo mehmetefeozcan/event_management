@@ -44,11 +44,11 @@ $calendar = buildWeeklyCalendar($eventList);
                             <th scope="row" class="text-nowrap"><?= sprintf('%02d.00', $hour) ?></th>
                             <?php foreach ($calendar['days'] as $dayNo => $dayName):
                                 $cell = $calendar['cells'][$hour][$dayNo] ?? [];
-                            ?>
+                                ?>
                                 <td class="text-start small <?= empty($cell) ? 'bg-light' : 'bg-primary-subtle' ?>">
                                     <?php foreach ($cell as $event): ?>
                                         <a href="<?= BASE_PATH ?>/event/detail.php?id=<?= $event['id'] ?>"
-                                            class="d-block text-decoration-none text-primary-emphasis mb-1">
+                                            class="d-block text-primary-emphasis mb-1">
                                             <?= htmlspecialchars($event['name']) ?>
                                         </a>
                                     <?php endforeach ?>
@@ -65,14 +65,15 @@ $calendar = buildWeeklyCalendar($eventList);
                 <p class="small text-muted mb-2">Takvim aralığı (09.00–18.00) dışında kalan etkinlikler:</p>
                 <ul class="list-group list-group-flush">
                     <?php foreach ($calendar['outside'] as $event): ?>
-                        <li class="list-group-item px-0"><?= htmlspecialchars($event['name']) ?> · <?= formatEventTime($event) ?></li>
+                        <li class="list-group-item px-0"><?= htmlspecialchars($event['name']) ?> ·
+                            <?= formatEventTime($event) ?>
+                        </li>
                     <?php endforeach ?>
                 </ul>
             </div>
         <?php endif ?>
     </div>
 
-    <?php include_once COMPONENTS_PATH . "/layout/footer.php" ?>
 
     <?php include_once "../config/script_config.php" ?>
 </body>

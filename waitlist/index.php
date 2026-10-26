@@ -73,7 +73,6 @@ $totalWaiting = countAll($waitlist);
         <?php endforeach ?>
     </div>
 
-    <?php include_once COMPONENTS_PATH . "/layout/footer.php" ?>
 
     <?php include_once "../config/script_config.php" ?>
 </body>
