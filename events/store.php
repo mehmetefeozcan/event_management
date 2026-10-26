@@ -1,0 +1,78 @@
+<?php
+
+$eventList = [
+    [
+        'id' => 1,
+        'name' => 'Yapay Zekâ Atölyesi',
+        'description' => 'Makine öğrenmesinin temellerini uygulamalı örneklerle inceleyen atölye.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 3,
+        'capacity' => 3,
+        'min_grade' => 2,
+    ],
+    [
+        'id' => 2,
+        'name' => 'Siber Güvenlik Semineri',
+        'description' => 'Günlük hayatta karşılaşılan siber tehditler ve korunma yöntemleri.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 2,
+        'capacity' => 4,
+        'min_grade' => 1,
+    ],
+    [
+        'id' => 3,
+        'name' => 'Veri Bilimine Giriş',
+        'description' => 'Veri toplama, temizleme ve görselleştirmeye genel bir bakış.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 2,
+        'capacity' => 2,
+        'min_grade' => 1,
+    ],
+    [
+        'id' => 4,
+        'name' => 'Girişimcilik Konferansı',
+        'description' => 'Başarılı girişimcilerin deneyimleri ve iş fikri geliştirme süreçleri.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 4,
+        'capacity' => 5,
+        'min_grade' => 1,
+    ],
+    [
+        'id' => 5,
+        'name' => 'Web Güvenliği Sertifika Eğitimi',
+        'description' => 'Web uygulamalarındaki yaygın açıklar ve güvenli kodlama ilkeleri.',
+        "date" => "2026-10-26 18:39:16",
+        'duration' => 3,
+        'capacity' => 2,
+        'min_grade' => 3,
+    ],
+    [
+        'id' => 6,
+        'name' => 'Kariyer Planlama Semineri',
+        'description' => 'Özgeçmiş hazırlama, mülakat teknikleri ve kariyer yol haritası.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 1,
+        'capacity' => 6,
+        'min_grade' => 1,
+    ],
+    [
+        'id' => 7,
+        'name' => 'Flutter Uygulama Atölyesi',
+        'description' => 'Flutter ile çapraz platform mobil uygulama geliştirmeye uygulamalı giriş.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 3,
+        'capacity' => 3,
+        'min_grade' => 2,
+    ],
+    [
+        'id' => 8,
+        'name' => 'Etik Hacking Konferansı',
+        'description' => 'Sızma testlerinin etik sınırları ve güvenlik uzmanlarının bakış açısı.',
+        "date" => "2026-10-26 10:00:00",
+        'duration' => 2,
+        'capacity' => 1,
+        'min_grade' => 4,
+    ],
+];
+
+?>
