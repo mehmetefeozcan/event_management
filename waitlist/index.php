@@ -46,7 +46,7 @@ $totalWaiting = totalWaiting($waitlist);
                 <h3><?= $pageTitle ?></h3>
             </span>
             <div class="col-auto">
-                <span class="bg-white rounded-4 px-3 py-2 border">Toplam bekleyen: <?= $totalWaiting ?></span>
+                Toplam bekleyen: <?= $totalWaiting ?>
             </div>
         </div>
 
@@ -60,7 +60,6 @@ $totalWaiting = totalWaiting($waitlist);
                     <a href="<?= BASE_PATH ?>/event/detail.php?id=<?= $list['event']['id'] ?>" class="text-black">
                         <?= htmlspecialchars($list['event']['name']) ?>
                     </a>
-                    <span class="badge text-bg-light border ms-2"><?= count($list['students']) ?> öğrenci</span>
                 </h5>
 
                 <ul class="list-group list-group-flush mt-3">

@@ -1,5 +1,4 @@
 <?php
-// Loads configuration, data and business logic for every page from one place.
 require_once __DIR__ . '/paths_config.php';
 require_once __DIR__ . '/session_config.php';
 

@@ -24,7 +24,7 @@ $reservations = $_SESSION['reservations'];
             $count = reservationCount($reservations, $event['id']);
             $rate = occupancyRate($event, $reservations);
             $roundedRate = round($rate);
-        ?>
+            ?>
             <div class="position-relative rounded-4 p-4 bg-light">
                 <h3><?= htmlspecialchars($event['name']) ?></h3>
                 <p><?= htmlspecialchars($event['description']) ?></p>
@@ -36,9 +36,14 @@ $reservations = $_SESSION['reservations'];
                         Min. Sınıf: <?= $event['min_grade'] ?>
                     </span>
                 </div>
-                <div class="progress mt-4" role="progressbar" aria-label="Doluluk"
-                    aria-valuenow="<?= $roundedRate ?>" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar bg-<?= occupancyColor($rate) ?>" style="width: <?= $roundedRate ?>%"></div>
+                <div class="d-flex gap-4  align-items-center ">
+                    <div class="progress  col" role="progressbar" aria-label="Doluluk" aria-valuenow="<?= $roundedRate ?>"
+                        aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar bg-<?= occupancyColor($rate) ?>" style="width: <?= $roundedRate ?>%"></div>
+                    </div>
+                    <span class="bg-white rounded-4 px-3 py-2 border col-auto">
+                        <?= occupancyClass($rate) ?>
+                    </span>
                 </div>
                 <span class="d-inline-block px-3 py-2 mt-3">
                     <?= formatEventTime($event) ?>
