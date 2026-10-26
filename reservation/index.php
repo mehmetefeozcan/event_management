@@ -7,10 +7,10 @@ $pagePath = "/reservation/index.php";
 $rows = [];
 
 foreach ($_SESSION['reservations'] as $eventId => $studentIds) {
-    $event = findEvent($eventList, $eventId);
+    $event = findById($eventList, $eventId);
 
     foreach ($studentIds as $studentId) {
-        $student = findStudent($studentList, $studentId);
+        $student = findById($studentList, $studentId);
 
         if ($event !== null && $student !== null) {
             $rows[] = ['event' => $event, 'student' => $student];

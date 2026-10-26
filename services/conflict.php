@@ -22,7 +22,7 @@ function isOverlapping(array $a, array $b): bool
 function studentHasOverlap(array $eventList, array $studentEventIds, array $newEvent): bool
 {
     foreach ($studentEventIds as $eventId) {
-        $existing = findEvent($eventList, $eventId);
+        $existing = findById($eventList, $eventId);
 
         if ($existing !== null && isOverlapping($existing, $newEvent)) {
             return true;

@@ -8,24 +8,14 @@ $waitlist = $_SESSION['waitlist'];
 $lists = [];
 
 foreach ($eventList as $event) {
-    $studentIds = $waitlist[$event['id']] ?? [];
+    $students = findStudents($studentList, $waitlist[$event['id']] ?? []);
 
-    if (empty($studentIds)) {
-        continue;
+    if (!empty($students)) {
+        $lists[] = ['event' => $event, 'students' => $students];
     }
-
-    $students = [];
-    foreach ($studentIds as $studentId) {
-        $student = findStudent($studentList, $studentId);
-        if ($student !== null) {
-            $students[] = $student;
-        }
-    }
-
-    $lists[] = ['event' => $event, 'students' => $students];
 }
 
-$totalWaiting = totalWaiting($waitlist);
+$totalWaiting = countAll($waitlist);
 ?>
 
 <!DOCTYPE html>

@@ -5,7 +5,7 @@ $pageTitle = "Etkinlik Detayı";
 $pagePath = "/index.php";
 
 $eventId = (int) ($_GET['id'] ?? 0);
-$event = findEvent($eventList, $eventId);
+$event = findById($eventList, $eventId);
 
 $reservations = $_SESSION['reservations'];
 $waitlist = $_SESSION['waitlist'];
@@ -19,13 +19,7 @@ if ($event === null) {
     $roundedRate = round($rate);
     $waitingCount = count($waitlist[$eventId] ?? []);
 
-    $registeredStudents = [];
-    foreach ($reservations[$eventId] ?? [] as $studentId) {
-        $student = findStudent($studentList, $studentId);
-        if ($student !== null) {
-            $registeredStudents[] = $student;
-        }
-    }
+    $registeredStudents = findStudents($studentList, $reservations[$eventId] ?? []);
 }
 ?>
 

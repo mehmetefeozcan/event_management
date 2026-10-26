@@ -1,22 +1,19 @@
 <?php
 
+function isRegistered(array $reservations, int $studentId, int $eventId): bool
+{
+    return in_array($studentId, $reservations[$eventId] ?? [], true);
+}
+
 function studentEventIds(array $reservations, int $studentId): array
 {
-    $eventIds = [];
-
-    foreach ($reservations as $eventId => $studentIds) {
-        if (in_array($studentId, $studentIds, true)) {
-            $eventIds[] = $eventId;
-        }
-    }
-
-    return $eventIds;
+    return array_keys(array_filter($reservations, fn($ids) => in_array($studentId, $ids, true)));
 }
 
 function evaluateReservation(array $eventList, array $studentList, array $reservations, int $studentId, int $eventId): array
 {
-    $event = findEvent($eventList, $eventId);
-    $student = findStudent($studentList, $studentId);
+    $event = findById($eventList, $eventId);
+    $student = findById($studentList, $studentId);
 
     if ($event === null || $student === null) {
         return result(false, 'Öğrenci ya da etkinlik sistemde bulunamadı.');
@@ -30,13 +27,11 @@ function evaluateReservation(array $eventList, array $studentList, array $reserv
         return result(false, 'Etkinlikte boş kontenjan kalmadı.');
     }
 
-    if (in_array($studentId, $reservations[$eventId] ?? [], true)) {
+    if (isRegistered($reservations, $studentId, $eventId)) {
         return result(false, 'Bu etkinliğe zaten kayıtlısınız.');
     }
 
-    $studentEvents = studentEventIds($reservations, $studentId);
-
-    if (studentHasOverlap($eventList, $studentEvents, $event)) {
+    if (studentHasOverlap($eventList, studentEventIds($reservations, $studentId), $event)) {
         return result(false, 'Bu etkinlik, mevcut bir rezervasyonunuzla zaman çakışıyor.');
     }
 
@@ -50,13 +45,14 @@ function makeReservation(array &$reservations, int $studentId, int $eventId): vo
 
 function cancelReservation(array $eventList, array $studentList, array &$reservations, array &$waitlist, int $studentId, int $eventId): array
 {
-    if (!in_array($studentId, $reservations[$eventId] ?? [], true)) {
+    if (!isRegistered($reservations, $studentId, $eventId)) {
         return result(false, 'Bu rezervasyon bulunamadı.');
     }
 
     $reservations[$eventId] = array_values(array_diff($reservations[$eventId], [$studentId]));
 
-    $waitlistResult = processWaitlist($eventList, $studentList, $reservations, $waitlist, $eventId);
-
-    return array_merge(result(true, 'Rezervasyon iptal edildi.'), $waitlistResult);
+    return array_merge(
+        result(true, 'Rezervasyon iptal edildi.'),
+        processWaitlist($eventList, $studentList, $reservations, $waitlist, $eventId)
+    );
 }

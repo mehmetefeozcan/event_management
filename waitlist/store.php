@@ -2,8 +2,7 @@
 require_once __DIR__ . '/../config/app.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_PATH . '/index.php');
-    exit;
+    redirect('/index.php');
 }
 
 $action = $_POST['action'] ?? '';
@@ -13,18 +12,13 @@ $eventId = (int) ($_POST['event_id'] ?? 0);
 if ($action === 'add') {
     $result = addToWaitlist($eventList, $studentList, $_SESSION['reservations'], $_SESSION['waitlist'], $studentId, $eventId);
 
-    setFlash($result['success'] ? 'success' : 'danger', $result['message']);
-    header('Location: ' . BASE_PATH . '/event/detail.php?id=' . $eventId);
-    exit;
+    flashRedirect($result, '/event/detail.php?id=' . $eventId);
 }
 
 if ($action === 'remove') {
     removeFromWaitlist($_SESSION['waitlist'], $studentId, $eventId);
 
-    setFlash('success', 'Öğrenci bekleme listesinden çıkarıldı.');
-    header('Location: ' . BASE_PATH . '/waitlist/index.php');
-    exit;
+    flashRedirect(result(true, 'Öğrenci bekleme listesinden çıkarıldı.'), '/waitlist/index.php');
 }
 
-header('Location: ' . BASE_PATH . '/index.php');
-exit;
+redirect('/index.php');

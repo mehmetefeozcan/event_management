@@ -2,8 +2,8 @@
 
 function addToWaitlist(array $eventList, array $studentList, array $reservations, array &$waitlist, int $studentId, int $eventId): array
 {
-    $event = findEvent($eventList, $eventId);
-    $student = findStudent($studentList, $studentId);
+    $event = findById($eventList, $eventId);
+    $student = findById($studentList, $studentId);
 
     if ($event === null || $student === null) {
         return result(false, 'Öğrenci ya da etkinlik sistemde bulunamadı.');
@@ -13,7 +13,7 @@ function addToWaitlist(array $eventList, array $studentList, array $reservations
         return result(false, 'Etkinlikte boş kontenjan var. Doğrudan kayıt olabilirsiniz.');
     }
 
-    if (in_array($studentId, $reservations[$eventId] ?? [], true)) {
+    if (isRegistered($reservations, $studentId, $eventId)) {
         return result(false, 'Bu etkinliğe zaten kayıtlısınız.');
     }
 
@@ -22,28 +22,22 @@ function addToWaitlist(array $eventList, array $studentList, array $reservations
     }
 
     $waitlist[$eventId][] = $studentId;
-    $position = count($waitlist[$eventId]);
 
-    return result(true, "Bekleme listesine eklendi. Sıranız: {$position}.");
+    return result(true, 'Bekleme listesine eklendi. Sıranız: ' . count($waitlist[$eventId]) . '.');
 }
 
 function removeFromWaitlist(array &$waitlist, int $studentId, int $eventId): void
 {
-    if (!isset($waitlist[$eventId])) {
-        return;
-    }
-
-    $waitlist[$eventId] = array_values(array_diff($waitlist[$eventId], [$studentId]));
+    $waitlist[$eventId] = array_values(array_diff($waitlist[$eventId] ?? [], [$studentId]));
 }
 
 function processWaitlist(array $eventList, array $studentList, array &$reservations, array &$waitlist, int $eventId): array
 {
-    $event = findEvent($eventList, $eventId);
-    $promoted = [];
-    $rejected = [];
+    $outcome = ['promoted' => [], 'rejected' => []];
+    $event = findById($eventList, $eventId);
 
     if ($event === null) {
-        return ['promoted' => $promoted, 'rejected' => $rejected];
+        return $outcome;
     }
 
     while (remainingCapacity($event, $reservations) > 0 && !empty($waitlist[$eventId] ?? [])) {
@@ -52,11 +46,10 @@ function processWaitlist(array $eventList, array $studentList, array &$reservati
 
         if ($evaluation['success']) {
             makeReservation($reservations, $candidateId, $eventId);
-            $promoted[] = $candidateId;
-        } else {
-            $rejected[] = $candidateId;
         }
+
+        $outcome[$evaluation['success'] ? 'promoted' : 'rejected'][] = $candidateId;
     }
 
-    return ['promoted' => $promoted, 'rejected' => $rejected];
+    return $outcome;
 }

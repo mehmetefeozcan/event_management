@@ -1,30 +1,31 @@
 <?php
 
+const OCCUPANCY_LEVELS = [
+    ['min' => 100, 'label' => 'Tam dolu', 'color' => 'danger'],
+    ['min' => 75, 'label' => 'Yüksek doluluk', 'color' => 'warning'],
+    ['min' => 25, 'label' => 'Orta doluluk', 'color' => 'success'],
+    ['min' => 0, 'label' => 'Düşük doluluk', 'color' => 'info'],
+];
+
 function result(bool $success, string $message): array
 {
     return ['success' => $success, 'message' => $message];
 }
 
-function findEvent(array $eventList, int $id): ?array
+function findById(array $items, int $id): ?array
 {
-    foreach ($eventList as $event) {
-        if ($event['id'] === $id) {
-            return $event;
+    foreach ($items as $item) {
+        if ($item['id'] === $id) {
+            return $item;
         }
     }
 
     return null;
 }
 
-function findStudent(array $studentList, int $id): ?array
+function findStudents(array $studentList, array $ids): array
 {
-    foreach ($studentList as $student) {
-        if ($student['id'] === $id) {
-            return $student;
-        }
-    }
-
-    return null;
+    return array_values(array_filter(array_map(fn($id) => findById($studentList, $id), $ids)));
 }
 
 function reservationCount(array $reservations, int $eventId): int
@@ -46,34 +47,25 @@ function occupancyRate(array $event, array $reservations): float
     return reservationCount($reservations, $event['id']) / $event['capacity'] * 100;
 }
 
-function occupancyClass(float $rate): string
+function occupancyLevel(float $rate): array
 {
-    if ($rate >= 100) {
-        return 'Tam dolu';
-    }
-    if ($rate >= 75) {
-        return 'Yüksek doluluk';
-    }
-    if ($rate >= 25) {
-        return 'Orta doluluk';
+    foreach (OCCUPANCY_LEVELS as $level) {
+        if ($rate >= $level['min']) {
+            return $level;
+        }
     }
 
-    return 'Düşük doluluk';
+    return OCCUPANCY_LEVELS[count(OCCUPANCY_LEVELS) - 1];
+}
+
+function occupancyClass(float $rate): string
+{
+    return occupancyLevel($rate)['label'];
 }
 
 function occupancyColor(float $rate): string
 {
-    if ($rate >= 100) {
-        return 'danger';
-    }
-    if ($rate >= 75) {
-        return 'warning';
-    }
-    if ($rate >= 25) {
-        return 'success';
-    }
-
-    return 'info';
+    return occupancyLevel($rate)['color'];
 }
 
 function formatEventTime(array $event): string
@@ -86,4 +78,16 @@ function formatEventTime(array $event): string
 function setFlash(string $type, string $message): void
 {
     $_SESSION['flash'] = ['type' => $type, 'message' => $message];
+}
+
+function redirect(string $path): void
+{
+    header('Location: ' . BASE_PATH . $path);
+    exit;
+}
+
+function flashRedirect(array $result, string $path): void
+{
+    setFlash($result['success'] ? 'success' : 'danger', $result['message']);
+    redirect($path);
 }

@@ -18,23 +18,12 @@ function buildEventAnalytics(array $eventList, array $reservations, array $waitl
     return $analytics;
 }
 
-function totalReservations(array $reservations): int
+function countAll(array $lists): int
 {
     $total = 0;
 
-    foreach ($reservations as $studentIds) {
-        $total += count($studentIds);
-    }
-
-    return $total;
-}
-
-function totalWaiting(array $waitlist): int
-{
-    $total = 0;
-
-    foreach ($waitlist as $studentIds) {
-        $total += count($studentIds);
+    foreach ($lists as $items) {
+        $total += count($items);
     }
 
     return $total;
@@ -68,12 +57,7 @@ function leastDemanded(array $analytics): ?array
 
 function occupancyClassCounts(array $analytics): array
 {
-    $classes = [
-        'Tam dolu' => 0,
-        'Yüksek doluluk' => 0,
-        'Orta doluluk' => 0,
-        'Düşük doluluk' => 0,
-    ];
+    $classes = array_fill_keys(array_column(OCCUPANCY_LEVELS, 'label'), 0);
 
     foreach ($analytics as $row) {
         $classes[occupancyClass($row['rate'])]++;
@@ -87,15 +71,8 @@ function gradeDistribution(array $studentList, array $reservations): array
     $distribution = [];
 
     foreach ($reservations as $studentIds) {
-        foreach ($studentIds as $studentId) {
-            $student = findStudent($studentList, $studentId);
-
-            if ($student === null) {
-                continue;
-            }
-
-            $grade = $student['grade'];
-            $distribution[$grade] = ($distribution[$grade] ?? 0) + 1;
+        foreach (findStudents($studentList, $studentIds) as $student) {
+            $distribution[$student['grade']] = ($distribution[$student['grade']] ?? 0) + 1;
         }
     }
 

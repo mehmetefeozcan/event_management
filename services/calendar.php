@@ -10,13 +10,13 @@ function buildWeeklyCalendar(array $eventList): array
     foreach ($eventList as $event) {
         $interval = eventInterval($event);
         $day = (int) date('N', $interval['start']);
+        $dayStart = strtotime('midnight', $interval['start']);
         $placed = false;
 
         foreach ($hours as $hour) {
-            $hourStart = strtotime(date('Y-m-d', $interval['start']) . sprintf(' %02d:00:00', $hour));
-            $hourEnd = $hourStart + 3600;
+            $hourStart = $dayStart + $hour * 3600;
 
-            if (isset($days[$day]) && $interval['start'] < $hourEnd && $interval['end'] > $hourStart) {
+            if (isset($days[$day]) && $interval['start'] < $hourStart + 3600 && $interval['end'] > $hourStart) {
                 $cells[$hour][$day][] = $event;
                 $placed = true;
             }

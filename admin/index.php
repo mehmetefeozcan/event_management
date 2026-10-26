@@ -8,8 +8,8 @@ $reservations = $_SESSION['reservations'];
 $waitlist = $_SESSION['waitlist'];
 
 $analytics = buildEventAnalytics($eventList, $reservations, $waitlist);
-$totalCount = totalReservations($reservations);
-$totalWaitingCount = totalWaiting($waitlist);
+$totalCount = countAll($reservations);
+$totalWaitingCount = countAll($waitlist);
 $mostDemandedEvent = mostDemanded($analytics);
 $leastDemandedEvent = leastDemanded($analytics);
 $classCounts = occupancyClassCounts($analytics);
