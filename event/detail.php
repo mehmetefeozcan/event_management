@@ -87,7 +87,6 @@ if ($event === null) {
                             <?php if ($remaining > 0): ?>
                                 <button type="submit" class="btn btn-primary w-100">Kayıt ol</button>
                             <?php else: ?>
-                                <p class="small text-muted">Kontenjan dolu. Bekleme listesine başvurabilirsiniz.</p>
                                 <button type="submit" class="btn btn-warning w-100">Bekleme listesine ekle</button>
                             <?php endif ?>
                         </form>

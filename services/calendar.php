@@ -2,7 +2,7 @@
 
 function buildWeeklyCalendar(array $eventList): array
 {
-    $hours = range(9, 17);
+    $hours = range(9, 18);
     $days = [1 => 'Pazartesi', 2 => 'Salı', 3 => 'Çarşamba', 4 => 'Perşembe', 5 => 'Cuma'];
     $cells = [];
     $outside = [];
