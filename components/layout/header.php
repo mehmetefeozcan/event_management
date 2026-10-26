@@ -30,9 +30,7 @@ $pagePath ??= "";
                 <?php endforeach; ?>
             </ul>
 
-            <form class="d-flex">
-                <button class="btn btn-primary" type="button">Giriş yap</button>
-            </form>
+
         </div>
     </div>
 </nav>

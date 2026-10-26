@@ -13,7 +13,6 @@ function studentEventIds(array $reservations, int $studentId): array
     return $eventIds;
 }
 
-// Conditions are checked in order; the first failing one decides the message.
 function evaluateReservation(array $eventList, array $studentList, array $reservations, int $studentId, int $eventId): array
 {
     $event = findEvent($eventList, $eventId);
@@ -57,7 +56,6 @@ function cancelReservation(array $eventList, array $studentList, array &$reserva
 
     $reservations[$eventId] = array_values(array_diff($reservations[$eventId], [$studentId]));
 
-    // Freed seat is offered to waitlisted students in order.
     $waitlistResult = processWaitlist($eventList, $studentList, $reservations, $waitlist, $eventId);
 
     return array_merge(result(true, 'Rezervasyon iptal edildi.'), $waitlistResult);

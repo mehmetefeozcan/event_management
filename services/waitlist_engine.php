@@ -36,8 +36,6 @@ function removeFromWaitlist(array &$waitlist, int $studentId, int $eventId): voi
     $waitlist[$eventId] = array_values(array_diff($waitlist[$eventId], [$studentId]));
 }
 
-// Candidates are evaluated in queue order. A candidate who no longer
-// qualifies is removed from the queue and the next one is evaluated.
 function processWaitlist(array $eventList, array $studentList, array &$reservations, array &$waitlist, int $eventId): array
 {
     $event = findEvent($eventList, $eventId);

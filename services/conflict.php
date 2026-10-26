@@ -10,7 +10,6 @@ function eventInterval(array $event): array
     ];
 }
 
-// Half-open interval [start, end): 10–13 and 13–15 do not overlap.
 function isOverlapping(array $a, array $b): bool
 {
     $intervalA = eventInterval($a);

@@ -1,7 +1,5 @@
 <?php
 
-// Grid: hours (9–17) × days (1–5). Each cell holds every event overlapping that hour.
-// Events that fall outside the grid are returned in 'outside'.
 function buildWeeklyCalendar(array $eventList): array
 {
     $hours = range(9, 17);

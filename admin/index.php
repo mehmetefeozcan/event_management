@@ -48,15 +48,23 @@ sort($gradeLevels);
             <div class="col">
                 <div class="bg-white border rounded-4 p-3 h-100">
                     <div class="text-muted small">En çok talep gören</div>
-                    <div class="fw-bold"><?= $mostDemandedEvent ? htmlspecialchars($mostDemandedEvent['name']) : '-' ?></div>
-                    <div class="small text-muted"><?= $mostDemandedEvent ? $mostDemandedEvent['count'] . ' kayıt' : '' ?></div>
+                    <div class="fw-bold">
+                        <?= $mostDemandedEvent ? htmlspecialchars($mostDemandedEvent['name']) : '-' ?>
+                    </div>
+                    <div class="small text-muted">
+                        <?= $mostDemandedEvent ? $mostDemandedEvent['count'] . ' kayıt' : '' ?>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="bg-white border rounded-4 p-3 h-100">
                     <div class="text-muted small">En az talep gören</div>
-                    <div class="fw-bold"><?= $leastDemandedEvent ? htmlspecialchars($leastDemandedEvent['name']) : '-' ?></div>
-                    <div class="small text-muted"><?= $leastDemandedEvent ? $leastDemandedEvent['count'] . ' kayıt' : '' ?></div>
+                    <div class="fw-bold">
+                        <?= $leastDemandedEvent ? htmlspecialchars($leastDemandedEvent['name']) : '-' ?>
+                    </div>
+                    <div class="small text-muted">
+                        <?= $leastDemandedEvent ? $leastDemandedEvent['count'] . ' kayıt' : '' ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,27 +77,27 @@ sort($gradeLevels);
                         <th scope="col">Etkinlik</th>
                         <th scope="col">Kayıt / Kontenjan</th>
                         <th scope="col" style="min-width: 180px;">Doluluk</th>
-                        <th scope="col">Sınıf</th>
                         <th scope="col">Bekleme</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($analytics as $row):
                         $rate = $row['rate'];
-                    ?>
+                        ?>
                         <tr>
                             <td><?= htmlspecialchars($row['name']) ?></td>
                             <td><?= $row['count'] ?> / <?= $row['capacity'] ?></td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <div class="progress flex-grow-1" style="height: 8px;" role="progressbar"
-                                        aria-label="Doluluk" aria-valuenow="<?= round($rate) ?>" aria-valuemin="0" aria-valuemax="100">
-                                        <div class="progress-bar bg-<?= occupancyColor($rate) ?>" style="width: <?= round($rate) ?>%"></div>
+                                        aria-label="Doluluk" aria-valuenow="<?= round($rate) ?>" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        <div class="progress-bar bg-<?= occupancyColor($rate) ?>"
+                                            style="width: <?= round($rate) ?>%"></div>
                                     </div>
                                     <span class="small">%<?= round($rate) ?></span>
                                 </div>
                             </td>
-                            <td><?= occupancyClass($rate) ?></td>
                             <td><?= $row['waiting'] ?></td>
                         </tr>
                     <?php endforeach ?>

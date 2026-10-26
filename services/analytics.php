@@ -82,7 +82,6 @@ function occupancyClassCounts(array $analytics): array
     return $classes;
 }
 
-// Registrations per grade level.
 function gradeDistribution(array $studentList, array $reservations): array
 {
     $distribution = [];
